@@ -6,14 +6,6 @@ const path = require('path');
 const bodyPaser = require('body-parser');
 // 导入express-session模块
 const session = require('express-session');
-// 导入art-tempate模板引擎
-const template = require('art-template');
-// 导入dateformat第三方模块
-const dateFormat = require('dateformat');
-// 导入morgan这个第三方模块
-const morgan = require('morgan');
-// 导入config模块
-const config = require('config');
 // 创建网站服务器
 const app = express();
 // 数据库连接
@@ -35,24 +27,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'art');
 // 当渲染后缀为art的模板时 所使用的模板引擎是什么
 app.engine('art', require('express-art-template'));
-// 向模板内部导入dateFormate变量
-template.defaults.imports.dateFormat = dateFormat;
 
 // 开放静态资源文件
-app.use(express.static(path.join(__dirname, 'public')));
-
-console.log(config.get('title'))
-
-// 获取系统环境变量 返回值是对象 
-if (process.env.NODE_ENV == 'development') {
-	// 当前是开发环境
-	console.log('当前是开发环境')
-	// 在开发环境中 将客户端发送到服务器端的请求信息打印到控制台中
-	app.use(morgan('dev'))
-} else {
-	// 当前是生产环境
-	console.log('当前是生产环境')
-}
+app.use(express.static(path.join(__dirname, 'public')))
 
 // 引入路由模块
 const home = require('./route/home');
@@ -69,14 +46,7 @@ app.use((err, req, res, next) => {
 	// 将字符串对象转换为对象类型
 	// JSON.parse() 
 	const result = JSON.parse(err);
-	// {path: '/admin/user-edit', message: '密码比对失败,不能进行用户信息的修改', id: id}
-	let params = [];
-	for (let attr in result) {
-		if (attr != 'path') {
-			params.push(attr + '=' + result[attr]);
-		}
-	}
-	res.redirect(`${result.path}?${params.join('&')}`);
+	res.redirect(`${result.path}?message=${result.message}`);
 })
 
 // 监听端口
