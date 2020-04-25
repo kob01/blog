@@ -1,4 +1,5 @@
-// 引用expess框架
+//app.js引入模块，基本配置
+//引用expess框架
 const express = require("express");
 // 处理路径
 const path = require("path");
@@ -10,6 +11,10 @@ const session = require("express-session");
 const template = require("art-template");
 // 导入dateformat第三方模块
 const dateFormat = require("dateformat");
+// 导入morgan这个第三方模块
+const morgan = require("morgan");
+// 导入config模块
+const config = require("config");
 // 创建网站服务器
 const app = express();
 // 数据库连接
@@ -38,6 +43,19 @@ template.defaults.imports.dateFormat = dateFormat;
 
 // 开放静态资源文件
 app.use(express.static(path.join(__dirname, "public")));
+
+console.log(config.get("title"));
+
+// 获取系统环境变量 返回值是对象
+if (process.env.NODE_ENV == "development") {
+    // 当前是开发环境
+    console.log("当前是开发环境");
+    // 在开发环境中 将客户端发送到服务器端的请求信息打印到控制台中
+    app.use(morgan("dev"));
+} else {
+    // 当前是生产环境
+    console.log("当前是生产环境");
+}
 
 // 引入路由模块
 const home = require("./route/home");
