@@ -1,5 +1,18 @@
 ## 博客
 
+1. 建立项目所需文件夹
+	public 静态资源
+	model 数据库操作
+	route 路由
+	views 模板
+2. 初始化项目描述文件
+	npm init -y
+3. 下载项目所需第三方模块
+	cnpm install express mongoose art-template express-art-template -S
+4. 创建网站服务器
+5. 构建模块化路由
+	admin用户管理
+	home用户界面显示
 #### 1.1登录
 
 1. 创建用户集合，初始化用户
