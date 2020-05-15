@@ -25,6 +25,7 @@ app.use(bodyPaser.urlencoded({ extended: false }));
 app.use(
     session({
         secret: "secret key",
+        resave: true,
         saveUninitialized: false,
         cookie: {
             maxAge: 24 * 60 * 60 * 1000,
@@ -44,7 +45,7 @@ template.defaults.imports.dateFormat = dateFormat;
 // 开放静态资源文件
 app.use(express.static(path.join(__dirname, "public")));
 
-console.log(config.get("title"));
+//console.log(config.get("title"));
 
 // 获取系统环境变量 返回值是对象
 if (process.env.NODE_ENV == "development") {
