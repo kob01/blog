@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
 		// 验证没有通过
 		// e.message
 		// 重定向回用户添加页面
-		// return res.redirect(`/admin/user-edit?message=${e.message}`);
+		return res.redirect(`/admin/user-edit?message=${e.message}`);
 		// JSON.stringify() 将对象数据类型转换为字符串数据类型
 		return next(JSON.stringify({path: '/admin/user-edit', message: e.message}))
 	}
@@ -21,7 +21,7 @@ module.exports = async (req, res, next) => {
 	// 如果用户已经存在 邮箱地址已经被别人占用
 	if (user) {
 		// 重定向回用户添加页面
-		// return res.redirect(`/admin/user-edit?message=邮箱地址已经被占用`);
+		return res.redirect(`/admin/user-edit?message=邮箱地址已经被占用`);
 		return next(JSON.stringify({path: '/admin/user-edit', message: '邮箱地址已经被占用'}))
 	}
 	// 对密码进行加密处理
